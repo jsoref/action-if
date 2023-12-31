@@ -1,0 +1,27 @@
+name: Test
+
+permissions: {}
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set foo
+        id: one
+        run: echo "foo=" >> "$GITHUB_OUTPUT"
+
+      - name: Run if foo
+        if: ${{ steps.one.outputs.foo }}
+        run:
+          echo hi
+
+      - name: Multiline
+        run: |
+          echo "foo<${{ steps.one.outputs.foo }}>"
+          echo ...
